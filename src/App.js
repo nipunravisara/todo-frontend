@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import HomePage from "./containers/HomePage";
 import LoginPage from "./containers/LoginPage";
+import RegisterPage from "./containers/RegisterPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }

@@ -1,19 +1,18 @@
 import React, { createContext, useState } from "react";
 import { useCookies } from "react-cookie";
-import { getTodos } from "../services/todoServices";
+import { changeTodoState, getTodos } from "../services/todoServices";
 import { useSnackbar } from "./snackbarContext";
 
 const TodoContext = createContext({});
 
 const TodoProvider = (props) => {
-  const [cookies] = useCookies(["access_token"]);
   const [todos, setTodos] = useState([]);
   const { setSnack } = useSnackbar();
 
   // get todos
   const getAllTodos = async () => {
     const headers = {
-      Authorization: `Basic ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
     const response = await getTodos(headers);
@@ -29,9 +28,29 @@ const TodoProvider = (props) => {
     }
   };
 
+  // change state
+  const changeTodoStatus = async (id, status) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    };
+
+    const response = await changeTodoState(headers, id, status);
+
+    if (response.success) {
+      setTodos(response.data);
+    } else {
+      setSnack({
+        open: true,
+        message: response.message,
+        severity: "error",
+      });
+    }
+  };
+
   const todoContextValue = {
     todos,
     getAllTodos,
+    changeTodoStatus,
   };
 
   return <TodoContext.Provider value={todoContextValue} {...props} />;

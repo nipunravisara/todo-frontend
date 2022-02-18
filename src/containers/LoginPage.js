@@ -1,14 +1,13 @@
 import React from "react";
 import { Paper, Box, Grid } from "@mui/material";
+import Link from "@mui/material/Link";
 
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useAuth } from "../context/authContext";
-import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +16,6 @@ export default function LoginPage() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    navigate("/");
   };
 
   return (
@@ -76,8 +74,12 @@ export default function LoginPage() {
               required
               fullWidth
             />
-            <Button title="Register" type="submit" fullWidth />
+            <Button title="Login" type="submit" fullWidth />
           </Box>
+
+          <Link href="/register" variant="body2">
+            Create account
+          </Link>
         </Box>
       </Grid>
     </Grid>

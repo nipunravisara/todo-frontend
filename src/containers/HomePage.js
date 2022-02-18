@@ -4,24 +4,34 @@ import Container from "@mui/material/Container";
 import TodoItem from "../components/TodoItem";
 
 export default function HomePage() {
-  const { todos, getAllTodos } = useTodo();
+  const { todos, getAllTodos, changeTodoStatus } = useTodo();
 
   useEffect(() => {
     getAllTodos();
   }, []);
 
   console.log(todos);
-  return (
-    <div>
-      <Container maxWidth="sm">
-        {todos.map((todo, idx) => (
-          <TodoItem
-            key={`${todo.title}${idx}`}
-            title={todo.title}
-            status={todo.status}
-          />
-        ))}
-      </Container>
-    </div>
-  );
+  if (todos.length > 0) {
+    return (
+      <div>
+        <Container maxWidth="sm">
+          {todos.map((todo, idx) => (
+            <TodoItem
+              key={`${todo.title}${idx}`}
+              id={todo._id}
+              title={todo.title}
+              status={todo.status}
+              changeTodoStatus={changeTodoStatus}
+            />
+          ))}
+        </Container>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Container maxWidth="sm">No todos yet.</Container>
+      </div>
+    );
+  }
 }
