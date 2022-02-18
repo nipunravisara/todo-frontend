@@ -13,7 +13,7 @@ const TodoProvider = (props) => {
   // get todos
   const getAllTodos = async () => {
     const headers = {
-      Authorization: `Basic ${cookies.access_token}`,
+      Authorization: `Basic ${localStorage.getItem("accessToken")}`,
     };
 
     const response = await getTodos(headers);
